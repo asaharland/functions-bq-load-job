@@ -71,3 +71,9 @@ typings/
 
 # Serverless directories
 .serverless
+
+# IDE
+.vscode/
+
+# Mac
+.DS_Store
