@@ -6,7 +6,7 @@ const proxyquire = require(`proxyquire`).noCallThru();
 const sinon = require(`sinon`);
 const test = require(`ava`);
 
-const filename = `sample.txt`;
+const filename = `sample.csv`;
 
 function getSample () {
   const filePath = path.join(__dirname, `../${filename}`);
@@ -38,7 +38,7 @@ test.serial(`Fails without a bucket`, (t) => {
   const expectedMsg = `Bucket not provided. Make sure you have a "bucket" property in your request`;
 
   t.throws(
-    () => getSample().program.wordCount({ data: { name: `file` } }),
+    () => getSample().program.loadFile({ data: { name: `file` } }),
     Error,
     expectedMsg
   );
@@ -48,46 +48,8 @@ test.serial(`Fails without a file`, (t) => {
   const expectedMsg = `Filename not provided. Make sure you have a "file" property in your request`;
 
   t.throws(
-    () => getSample().program.wordCount({ data: { bucket: `bucket` } }),
+    () => getSample().program.loadFile({ data: { bucket: `bucket` } }),
     Error,
     expectedMsg
   );
-});
-
-test.cb.serial(`Does nothing for deleted files`, (t) => {
-  const event = {
-    data: {
-      resourceState: `not_exists`
-    }
-  };
-  const sample = getSample();
-
-  sample.program.wordCount(event, (err, message) => {
-    t.ifError(err);
-    t.is(message, undefined);
-    t.deepEqual(sample.mocks.storage.bucket.callCount, 0);
-    t.deepEqual(sample.mocks.bucket.file.callCount, 0);
-    t.end();
-  });
-});
-
-test.cb.serial(`Reads the file line by line`, (t) => {
-  const expectedMsg = `File ${filename} has 114 words`;
-  const event = {
-    data: {
-      bucket: `bucket`,
-      name: `sample.txt`
-    }
-  };
-
-  const sample = getSample();
-  sample.program.wordCount(event, (err, message) => {
-    t.ifError(err);
-    t.deepEqual(message, expectedMsg);
-    t.deepEqual(sample.mocks.storage.bucket.calledOnce, true);
-    t.deepEqual(sample.mocks.storage.bucket.firstCall.args, [event.data.bucket]);
-    t.deepEqual(sample.mocks.bucket.file.calledOnce, true);
-    t.deepEqual(sample.mocks.bucket.file.firstCall.args, [event.data.name]);
-    t.end();
-  });
 });
