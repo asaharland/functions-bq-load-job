@@ -8,7 +8,7 @@ View the [source code][code].
 
 ## Deploy and Test
 
-1. Follow the [Cloud Functions quickstart guide][quickstart] to setup Cloud
+1. Follow the [Cloud Functions quickstart guide]to setup Cloud
 Functions for your project.
 
 1. Clone this repository:
@@ -37,3 +37,4 @@ Functions for your project.
 
 1. Query the BigQuery table to check that you can see that the data has been inserted successfully.
 
+[Cloud Functions quickstart guide]: https://cloud.google.com/functions/docs/quickstart-console
