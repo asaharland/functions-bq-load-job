@@ -8,7 +8,7 @@ View the [source code][code].
 
 ## Deploy and Test
 
-1. Follow the [Cloud Functions quickstart guide]to setup Cloud
+1. Follow the [Cloud Functions quickstart guide] to setup Cloud
 Functions for your project.
 
 1. Clone this repository:
@@ -29,9 +29,9 @@ Functions for your project.
 
         user_id:STRING,amount:FLOAT
 
-1. Upload 'transactions.csv', located in the root of this repo, to your bucket:
+1. Upload 'sample.csv', located in the root of this repo, to your bucket:
 
-        gsutil cp transactions.csv gs://BUCKET_NAME
+        gsutil cp sample.csv gs://BUCKET_NAME
 
     * Replace `YOUR_BUCKET_NAME` with the name of your Cloud Storage Bucket.
 
