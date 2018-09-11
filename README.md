@@ -13,7 +13,7 @@ Functions for your project.
 
 1. Clone this repository:
 
-        git clone 
+        git clone https://github.com/asaharland/functions-bq-load-job
 
 1. Create a Cloud Storage Bucket:
 
