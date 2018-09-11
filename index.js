@@ -24,9 +24,8 @@ exports.loadFile = (event, callback) => {
   const tableId = 'transactions';
 
   const jobMetadata = {
-    allowJaggedRows: true,
     skipLeadingRows: 1,
-    writeDisposition: 'WRITE_TRUNCATE'
+    writeDisposition: 'WRITE_APPEND'
   };
 
   // Loads data from a Google Cloud Storage file into the table
