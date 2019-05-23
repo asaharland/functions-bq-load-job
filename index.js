@@ -13,12 +13,11 @@ const bigquery = new BigQuery();
 /**
  * Creates a BigQuery load job to load a file from Cloud Storage and write the data into BigQuery.
  *
- * @param {object} event The Cloud Functions event.
- * @param {object} event.data A Google Cloud Storage File object.
- * @param {function} callback The callback function.
+ * @param {object} data The event payload.
+ * @param {object} context The event metadata.
  */
-exports.loadFile = (event, callback) => {
-  const file = event.data;
+exports.loadFile = (data, context) => {
+  const file = data;
 
   const datasetId = 'finance';
   const tableId = 'transactions';
@@ -37,6 +36,6 @@ exports.loadFile = (event, callback) => {
       console.error('ERROR:', err);
     });
 
-  callback();
+  console.log(`File ${file.name} written to BigQuery.`);
 };
 // [END functions_load_file_setup]
