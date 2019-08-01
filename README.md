@@ -23,11 +23,13 @@ Functions for your project.
 
 1. Deploy the "loadFile" function with an HTTP trigger:
 
-        gcloud functions deploy loadFile --trigger-resource gs://BUCKET_NAME --trigger-event google.storage.object.finalize
+        gcloud functions deploy loadFile --runtime nodejs8 --trigger-resource gs://BUCKET_NAME --trigger-event google.storage.object.finalize
 
-1. Create a BigQuery dataset with a table with the following schema:
+1. Create a BigQuery dataset and a table with the following schema:
 
         user_id:STRING,amount:FLOAT
+
+1. Update the variables datasetId and tableId in index.js to reflect the dataset and table you created in the previous step.
 
 1. Upload 'sample.csv', located in the root of this repo, to your bucket:
 
