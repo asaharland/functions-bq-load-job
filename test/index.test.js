@@ -1,55 +1,26 @@
-'use strict';
+const assert = require('assert');
+const uuid = require('uuid');
+const utils = require('@google-cloud/nodejs-repo-tools');
 
-const fs = require(`fs`);
-const path = require(`path`);
-const proxyquire = require(`proxyquire`).noCallThru();
-const sinon = require(`sinon`);
-const test = require(`ava`);
+const { loadFile } = require('..');
 
-const filename = `sample.csv`;
+beforeEach(utils.stubConsole);
+afterEach(utils.restoreConsole);
 
-function getSample () {
-  const filePath = path.join(__dirname, `../${filename}`);
-  const file = {
-    createReadStream: () => fs.createReadStream(filePath, { encoding: `utf8` })
-  };
-  const bucket = {
-    file: sinon.stub().returns(file)
-  };
-  const storage = {
-    bucket: sinon.stub().returns(bucket)
-  };
-  const StorageMock = sinon.stub().returns(storage);
+it('loadFile: should print uploaded message', async() => {
+    // Initialize mocks
+    const filename = uuid.v4();
+    const data = {
+        name: filename,
+        bucket: "cf-load-bucket",
+        resourceState: 'exists',
+        metageneration: '1',
+    };
 
-  return {
-    program: proxyquire(`../`, {
-      '@google-cloud/storage': StorageMock
-    }),
-    mocks: {
-      Storage: StorageMock,
-      storage: storage,
-      bucket: bucket,
-      file: file
-    }
-  };
-}
+    await loadFile(data);
 
-test.serial(`Fails without a bucket`, (t) => {
-  const expectedMsg = `Bucket not provided. Make sure you have a "bucket" property in your request`;
-
-  t.throws(
-    () => getSample().program.loadFile({ data: { name: `file` } }),
-    Error,
-    expectedMsg
-  );
-});
-
-test.serial(`Fails without a file`, (t) => {
-  const expectedMsg = `Filename not provided. Make sure you have a "file" property in your request`;
-
-  t.throws(
-    () => getSample().program.loadFile({ data: { bucket: `bucket` } }),
-    Error,
-    expectedMsg
-  );
+    assert.strictEqual(
+        console.log.calledWith(`Loading from gs://cf-load-bucket/${filename} into finance.transactions`),
+        true
+    );
 });

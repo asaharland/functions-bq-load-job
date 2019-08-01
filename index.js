@@ -31,4 +31,5 @@ exports.loadFile = (data, context) => {
             console.error('ERROR:', err);
         });
 
+    console.log(`Loading from gs://${data.bucket}/${data.name} into ${datasetId}.${tableId}`);
 };
