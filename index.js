@@ -1,10 +1,10 @@
 'use strict';
 
-const Storage = require('@google-cloud/storage');
-const BigQuery = require('@google-cloud/bigquery');
+const {Storage} = require('@google-cloud/storage');
+const {BigQuery} = require('@google-cloud/bigquery');
 
 // Instantiates a client
-const storage = Storage();
+const storage = new Storage();
 const bigquery = new BigQuery();
 
 /**
